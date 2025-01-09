@@ -1,0 +1,135 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'analyzer/css/login.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="section">
+   <div class="form-box">
+       <div class="button-box">
+           <div id="btn"></div>
+           <button type="button" class="toggle-btn" onclick="login()">Login</button>
+           <button type="button" class="toggle-btn" onclick="register()">Register</button>
+       </div>
+       <div class="social-icons">
+           <img src="{% static 'analyzer/img/logo_facebook.png' %}" alt="Facebook">
+           <img src="{% static 'analyzer/img/logo_twitter.png' %}" alt="Twitter">
+           <img src="{% static 'analyzer/img/logo_google.png' %}" alt="Google">
+       </div>
+
+       <form id="login" class="input-group" method="POST" action="{% url 'analyzer:login' %}">
+            {% csrf_token %}
+            <input type="text" name="username" class="input-field" placeholder="Username" required>
+            <input type="password" name="password" class="input-field" placeholder="Password" required>
+            <div class="error-message" id="login-error"></div>
+            <div class="remember-box">
+                <input type="checkbox" class="check-box"><span>Remember Password</span>
+            </div>
+            <button type="submit" class="submit-btn">Log in</button>
+        </form>
+
+       <form id="register" class="input-group" method="POST" action="{% url 'analyzer:register' %}">
+           {% csrf_token %}
+           <input type="text" name="username" class="input-field" placeholder="Username" required>
+           <input type="email" name="email" class="input-field" placeholder="Email" required>
+           <input type="password" name="password1" class="input-field" placeholder="Password" required>
+           <input type="password" name="password2" class="input-field" placeholder="Confirm Password" required>
+           <div class="error-message" id="register-error"></div>
+           <div class="terms-box">
+               <input type="checkbox" class="check-box" required>
+               <span>I agree to the terms & conditions</span>
+           </div>
+           <button type="submit" class="submit-btn">Register</button>
+       </form>
+   </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+const loginForm = document.getElementById("login");
+const registerForm = document.getElementById("register");
+const btnSlider = document.getElementById("btn");
+const loginError = document.getElementById("login-error");
+const registerError = document.getElementById("register-error");
+
+function showError(element, message) {
+   element.textContent = message;
+   element.style.display = 'block';
+   setTimeout(() => {
+       element.style.display = 'none';
+   }, 3000);
+}
+
+loginForm.addEventListener('submit', async (e) => {
+   e.preventDefault();
+   const formData = new FormData(loginForm);
+   
+   try {
+       const response = await fetch("{% url 'analyzer:login' %}", {
+           method: 'POST',
+           body: formData,
+           headers: {
+               'X-CSRFToken': '{{ csrf_token }}'
+           }
+       });
+       
+       const data = await response.json();
+       if (data.success) {
+           window.location.href = data.redirect;
+       } else {
+           showError(loginError, data.message);
+       }
+   } catch (error) {
+       showError(loginError, 'Connection error. Please try again.');
+   }
+});
+
+registerForm.addEventListener('submit', async (e) => {
+   e.preventDefault();
+   const formData = new FormData(registerForm);
+   
+   if (formData.get('password1') !== formData.get('password2')) {
+       showError(registerError, 'Passwords do not match');
+       return;
+   }
+   
+   try {
+       const response = await fetch("{% url 'analyzer:register' %}", {
+           method: 'POST',
+           body: formData,
+           headers: {
+               'X-CSRFToken': '{{ csrf_token }}'
+           }
+       });
+       
+       const data = await response.json();
+       if (data.success) {
+           window.location.href = data.redirect;
+       } else {
+           const errorMessages = Object.values(data.errors).join('\n');
+           showError(registerError, errorMessages);
+       }
+   } catch (error) {
+       showError(registerError, 'Registration failed. Please try again.');
+   }
+});
+
+function register() {
+   loginForm.style.left = "-400px";
+   registerForm.style.left = "50px";
+   btnSlider.style.left = "110px";
+}
+
+function login() {
+   loginForm.style.left = "50px";
+   registerForm.style.left = "450px";
+   btnSlider.style.left = "0px";
+}
+
+// Initialize login form view
+login();
+</script>
+{% endblock %}

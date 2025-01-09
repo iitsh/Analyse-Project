@@ -1,0 +1,21 @@
+/* static/css/main.css */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,900');
+
+:root {
+    --orange-gradient: linear-gradient(135deg, rgb(253,137,68), rgb(153,75,23));
+    --red-gradient: linear-gradient(135deg, #D34F48, #772522);
+    --transition-ease: all 0.25s ease-in-out;
+    --transition-bezier: all 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+    background: #f5f5f5;
+    min-height: 100vh;
+}

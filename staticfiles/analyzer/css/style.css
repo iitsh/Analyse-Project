@@ -1,0 +1,215 @@
+/* static/analyzer/css/style.css */
+@import url('https://fonts.googleapis.com/css?family=Lato:300,900');
+
+:root {
+    --transition-ease: all .25s ease-in-out;
+    --transition-bezier: all 0.75s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --animation-offset: 80px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    min-height: 100vh;
+    font-family: 'Lato', sans-serif;
+    background: url('../img/image.jpg') center/cover no-repeat;
+}
+
+.canvas-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.canvas {
+    flex: 1;
+    max-width: 400px;
+    margin: 20px;
+    padding: 20px;
+    position: relative;
+    height: 400px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.canvas_border {
+    position: absolute;
+    top: 40px;
+    left: -40px;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+.canvas_border svg {
+    height: 100%;
+    width: 100%;
+}
+
+.rect-gradient {
+    stroke: url(#grad-blue);
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: erase-line 1s ease-in-out forwards;
+}
+
+
+
+
+.canvas_img-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    transform: rotate(-10deg) skew(-10deg);
+    overflow: hidden;
+    background: var(--bg-secondary);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: var(--transition-ease);
+}
+
+.upload-btn, .history-btn {
+    color: white;
+    padding: 15px 30px;
+    border-radius: 30px;
+    font-size: 18px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.upload-btn {
+    background: linear-gradient(90deg, rgb(93, 0, 255), rgb(153, 154, 247));
+}
+
+.history-btn {
+    background: linear-gradient(90deg, rgb(93, 0, 255), rgb(153, 154, 247));
+    text-decoration: none;
+}
+
+.file-name {
+    margin-top: 15px;
+    color: #E6E6FA;
+}
+
+.canvas_copy {
+    position: absolute;
+    bottom: 0;
+    left: 85%;
+    text-transform: uppercase;
+    color: #ffffff;
+    z-index: 100;
+    transition: transform 0.5s ease-in-out;
+}
+
+.canvas_copy--left {
+    left: -30%;
+}
+
+.canvas_copy_title {
+    font-size: 54px;
+    display: block;
+    transform: translateX(calc(-1 * var(--animation-offset)));
+    transition: var(--transition-bezier);
+    opacity: 0;
+    font-weight: 900;
+}
+
+.canvas_copy_title:nth-child(2) {
+    transition-delay: 0.1s;
+}
+
+.canvas_copy_title:nth-child(3) {
+    transition-delay: 0.2s;
+}
+
+.canvas_copy_subtitle {
+    display: block;
+    transform: rotate(270deg) translateY(-100%) translateX(calc(-100% - var(--animation-offset)));
+    transform-origin: top left;
+    position: absolute;
+    left: 0;
+    top: 8px;
+    font-size: 24px;
+    font-weight: 900;
+    opacity: 0;
+    transition: var(--transition-bezier) 0.35s;
+}
+
+.canvas_copy_details {
+    display: block;
+    transform: translateX(calc(-1 * var(--animation-offset)));
+    transition: var(--transition-bezier) 0.14s;
+    opacity: 0;
+    margin-top: 10px;
+}
+
+/* Hover Animations */
+.canvas:hover .canvas_img-wrapper {
+    transform: rotate(-14deg) skew(-14deg) scale(0.96);
+}
+
+.canvas:hover .canvas_copy_title,
+.canvas:hover .canvas_copy_subtitle,
+.canvas:hover .canvas_copy_details {
+    opacity: 1;
+    transform: translateX(-10px);
+}
+
+.canvas:hover .canvas_copy_subtitle {
+    transform: rotate(270deg) translateY(-100%) translateX(-110%);
+}
+
+.canvas:hover .rect-gradient {
+    animation: draw-line 3s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+@keyframes draw-line {
+    from { stroke-dashoffset: 2000; }
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes erase-line {
+    from { stroke-dashoffset: 0; }
+    to { stroke-dashoffset: 2000; }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .canvas {
+        max-width: 350px;
+        height: 350px;
+    }
+
+    .canvas_copy_title {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 768px) {
+    .canvas {
+        max-width: 300px;
+        height: 300px;
+    }
+
+    .canvas_copy_title {
+        font-size: 32px;
+    }
+}

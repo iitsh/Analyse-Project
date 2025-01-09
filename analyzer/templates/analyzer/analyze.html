@@ -1,0 +1,70 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="dashboard">
+    <header class="dashboard-header">
+        <div class="header-content">
+            <h1 class="dashboard-title">Dashboard d'Analyse</h1>
+            <div class="header-actions">
+                <a href="{% url 'analyzer:home' %}" class="btn">Accueil</a>
+                <button id="exportBtn" class="btn">Générer PDF</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="dashboard-content">
+        <aside class="control-sidebar">
+            <div class="control-section">
+                <label class="control-label">Type de visualisation</label>
+                <select id="plotType" class="control-select">
+                    <option value="bar">Graphique à barres</option>
+                    <option value="pie">Diagramme circulaire</option>
+                    <option value="line">Graphique linéaire</option>
+                    <option value="histogram">Histogramme</option>
+                </select>
+                <div class="help-text">Sélectionnez le type de graphique selon vos besoins</div>
+            </div>
+
+            <div class="control-section">
+                <label class="control-label">Colonnes à analyser</label>
+                <div class="columns-container">
+                    {% for column in columns %}
+                    <div class="checkbox-wrapper">
+                        <input type="checkbox" name="columns" value="{{ column }}" id="col-{{ column }}">
+                        <label class="checkbox-label" for="col-{{ column }}">{{ column }}</label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <button id="analyzeBtn" class="btn-analyze">Analyser les données</button>
+        </aside>
+
+        <main class="main-content">
+            <div class="visualization-container">
+                <div class="tabs">
+                    <button class="tab-btn active" data-tab="preview">Aperçu</button>
+                    <button class="tab-btn" data-tab="graph">Graphiques</button>
+                    <button class="tab-btn" data-tab="stats">Statistiques</button>
+                </div>
+                <div class="tab-content">
+                    <div id="preview" class="tab-pane active">
+                        <div id="dataPreview"></div>
+                    </div>
+                    <div id="graph" class="tab-pane">
+                        <div id="plotContainer"></div>
+                    </div>
+                    <div id="stats" class="tab-pane">
+                        <div id="statsContent"></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'analyzer/js/analyze.js' %}"></script>
+{% endblock %}

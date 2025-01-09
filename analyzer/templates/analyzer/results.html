@@ -1,0 +1,43 @@
+{% extends 'analyzer/base.html' %}
+{% load static %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'analyzer/css/results.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="results-container">
+    <div class="header">
+        <h1 style="color: aliceblue;">Historique des Analyses</h1>
+        <a href="{% url 'analyzer:home' %}" class="btn">Accueil</a>
+    </div>
+    
+    <div class="results-table-container">
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Nom du fichier</th>
+                    <th>Date d'upload</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for dataset in datasets %}
+                <tr>
+                    <td>{{ dataset.filename }}</td>
+                    <td>{{ dataset.uploaded_at|date:"d/m/Y H:i" }}</td>
+                    <td class="actions">
+                        <a href="{% url 'analyzer:analyze_dataset' dataset.id %}" class="btn">Voir l'analyse</a>
+                        <a href="{% url 'analyzer:download_pdf' dataset.id %}" class="btn">Télécharger PDF</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" class="no-data">Aucun dataset analysé</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

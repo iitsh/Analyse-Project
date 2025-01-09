@@ -1,0 +1,155 @@
+.history-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1rem;
+}
+
+.datasets-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+}
+
+.dataset-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.dataset-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dataset-info h3 {
+    margin: 0;
+    color: #2d3748;
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+.dataset-info p {
+    color: #718096;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+}
+
+.dataset-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.dataset-actions .btn {
+    flex: 1;
+    padding: 0.7rem;
+    font-size: 0.9rem;
+    text-align: center;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, #718096, #4a5568);
+    color: white;
+    border: none;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(45deg, #4a5568, #2d3748);
+    transform: translateY(-2px);
+}
+
+.no-datasets {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 3rem;
+    background: white;
+    border-radius: 10px;
+    color: #718096;
+    font-size: 1.1rem;
+}
+
+.dataset-timestamp {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #a0aec0;
+    font-size: 0.85rem;
+}
+
+.dataset-timestamp svg {
+    width: 16px;
+    height: 16px;
+}
+
+.dataset-size {
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: #a0aec0;
+}
+
+@media (max-width: 768px) {
+    .datasets-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .dataset-card {
+        padding: 1.2rem;
+    }
+}
+
+.graph-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.modal-content {
+    position: relative;
+    z-index: 1001;
+    max-width: 90%;
+    max-height: 90%;
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.modal-content img {
+    max-width: 100%;
+    height: auto;
+}
+
+.loading {
+    text-align: center;
+    padding: 2rem;
+    color: #718096;
+}
+
+.error {
+    color: #e53e3e;
+    padding: 1rem;
+    border: 1px solid #feb2b2;
+    border-radius: 8px;
+    background: #fff5f5;
+}
